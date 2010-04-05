@@ -8,8 +8,8 @@ Download the relevant OS data from "their website":http://www.ordnancesurvey.co.
 
 Once you've unzipped the files, you can import the data using the management commands included, e.g.
 
-bc. cat 50k.txt | ./manage.py import_place
-cat oslocator.txt | ./manage.py import_road
+bc. cat 50k.txt | ./manage.py import_places
+cat oslocator.txt | ./manage.py import_roads
 cat postcodes/*.csv | ./manage.py import_postcodes
 
 Make sure DEBUG is False, otherwise you'll soon run out of memory as it tries to remember all the SQL queries made.
