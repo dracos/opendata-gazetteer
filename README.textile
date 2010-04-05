@@ -1,0 +1,39 @@
+h2. Installation
+
+This is a standard GeoDjango project. Install PostgreSQL and GeoDjango - I just
+"followed the instructions":http://docs.djangoproject.com/en/dev/ref/contrib/gis/install/.
+
+One thing - I'm on Debian lenny, and not only is the PostGIS that is installed
+missing SRID 900913, as the GeoDjango docs tell you, but SRID 27700 (British
+National Grid, and therefore quite important in this application) is incorrect.
+After you've installed and got a PostGIS template, log in to it and update the
+proj4text column of SRID 27700 to include +datum=OSGB36.
+
+Download the relevant OS data from "their website":http://www.ordnancesurvey.co.uk/oswebsite/opendata
+(or "mySociety's mirror":http://parlvid.mysociety.org:81/os/) - you want one or
+more of the 1:50k Gazetteer (place names), Code-Point Open (postcodes), and OS
+Locator (street names).
+
+Once you've unzipped the files, you can import the data using the management commands
+included, e.g.
+
+cat 50k.txt | ./manage.py import_place
+cat oslocator.txt | ./manage.py import_road
+cat postcodes/*.csv | ./manage.py import_postcodes
+
+Make sure DEBUG is False, otherwise you'll soon run out of memory as it tries to remember
+all the SQL queries made.
+
+That should be all you need to do - start up the dev web server, or whatever.
+
+h2. Todo
+
+* I've tried to make this a standalone Django app, but the CSS is currently in
+the project, not the app.  Other than that (which someone is welcome to fix),
+it should hopefully just slot in to any Django project; but I've probably
+done something wrong.
+
+* The postcode and reverse geocoding work well, as they're quite simple; the
+place and street name lookups could certainly be improved upon.
+
+Any comments or questions, do get in touch.

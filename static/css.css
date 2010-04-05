@@ -3,6 +3,8 @@ body {
     line-height: 1.5;
     padding: 0;
     margin: 0 1em;
+    color: #000000;
+    background-color: #ffffff;
 }
 
 h1 {
@@ -20,7 +22,12 @@ form {
     text-align: center;
 }
 
-#main {
+a:link { color: #0000ff; }
+a:visited { color: #000099; }
+a:active, a:hover { color: #ff0000; }
+
+label {
+    cursor: pointer;
 }
 
 #footer {

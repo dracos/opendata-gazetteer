@@ -7,14 +7,16 @@
 {% endif %}
 
 {% if postcode %}
-Postcode {{ postcode.get_name_display }}:
+Postcode {{ postcode }}:
 <ul>
 <li>Closest place in 1:50k gazetteer: {{ closest.place.0 }}
 <li>Closest road in OS Locator: {{ closest.road.0 }}
+<li><a href="/postcode/{{ postcode|cut:" " }}.json">JSON</a>
 </ul>
 {% endif %}
 
 {% if places %}
+<h2>Place matches in 1:50k gazetteer</h2>
 <ul>
 {% for place in places %}
 <li>{{ place }}
@@ -23,6 +25,7 @@ Postcode {{ postcode.get_name_display }}:
 {% endif %}
 
 {% if roads %}
+<h2>Road name matches in OS Locator</h2>
 <ul>
 {% for road in roads %}
 <li>{{ road }}

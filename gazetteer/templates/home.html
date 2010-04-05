@@ -1,4 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<p>This is a small GeoDjango application that combines the OS OpenData
+point-based gazetteers &ndash; one for postcodes
+(such as <a href="/postcode/SW1A1AA">SW1A&nbsp;1AA</a>),
+one for place names (such as <a href="/search?q=Solihull">Solihull</a>),
+and one for street names (such as <a href="/search?q=Baker+Street">Baker Street</a>
+or the <a href="/search?q=A435">A435</a>) &ndash; in a simple look-up style
+application that also does reverse geocoding (point to closest feature). 
+
+<p>It&rsquo;s just a demonstration; a fully-fledged lookup would
+want to include some form of spelling correction (perhaps the metaphone
+algorithm I use on <a href="http://theatricalia.com/">Theatricalia</a>),
+and some way of filtering/ limiting search results for street names to
+a specific area.
+The <a href="http://github.com/dracos/opendata-gazetteer">source code</a> is available
+on GitHub, if you wish to improve on this.
+
 {% endblock %}
