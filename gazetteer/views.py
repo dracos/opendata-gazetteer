@@ -66,8 +66,8 @@ def postcode(request, postcode, type=None):
     if 'application/json' in request.META.get('HTTP_ACCEPT') or type == 'json':
         return HttpResponse(simplejson.dumps({
             'postcode': '%s' % postcode,
-            'latitude': round(postcode.location[1], 6),
-            'longitude': round(postcode.location[0], 6),
+            'latitude': '%.6f' % postcode.location[1],
+            'longitude': '%.6f' % postcode.location[0],
         }), mimetype='application/json')
 
     return render(request, 'result.html', {
