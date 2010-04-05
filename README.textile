@@ -22,4 +22,6 @@ h2. Todo
 
 * The postcode and reverse geocoding work well, as they're quite simple; the place and street name lookups could certainly be improved upon.
 
+* Nearest lookups are currently limited to the nearest mile; presumably if that returns no results, it should try again with a larger area, but I'm not sure of the best way of picking the initial/ subsequent distances.
+
 Any comments or questions, do get in touch.
