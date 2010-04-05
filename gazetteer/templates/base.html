@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>OS OpenData Gazetteer</title>
+    <link href="/static/css.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div id="header" role="banner">
+    <h1>OS OpenData Gazetteer</h1>
+    <span>Code-Point Open, 1:50k Gazetteer, OS Locator, merged by Matthew Somerville</span>
+</div>
+
+<div id="main" role="main">
+
+<form action="/search" method="get">
+<label for="q">Postcode, place, street name, lat/long:</label> <input type="text" id="q" name="q" value="{{ q|default:"" }}">
+<input type="submit" value="Look up">
+</form>
+
+{% block content %}
+{% endblock %}
+
+</div>
+
+<div id="footer" role="navigation">
+    <p>This data contains Ordnance Survey data © Crown copyright and database
+    right 2010. Code-Point Open contains Royal Mail data © Royal Mail copyright
+    and database right 2010. Data may be used under the terms of the OS
+    OpenData licence.</p>
+</div>
+
+</body>
+</html>
