@@ -14,7 +14,14 @@ cat postcodes/*.csv | ./manage.py import_postcodes
 
 Make sure DEBUG is False, otherwise you'll soon run out of memory as it tries to remember all the SQL queries made.
 
-That should be all you need to do - start up the dev web server, or whatever.
+That should be all you need to do - start up the dev web server, or whatever. The relevant bits of my Apache VirtualHost, for what it's worth, are as follows:
+
+bc. <VirtualHost>
+    Alias /static/ [...]/project/static/
+    WSGIDaemonProcess gazetteer processes=5 threads=1
+    WSGIProcessGroup gazetteer
+    WSGIScriptAlias / [...]/project/apache/django.wsgi
+</VirtualHost>
 
 h2. Todo
 
