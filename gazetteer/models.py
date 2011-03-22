@@ -226,6 +226,16 @@ counties = {}
 for c in COUNTIES:
     counties[c[0]] = c[1]
 
+class Station(models.Model):
+    code = models.CharField(max_length=3)
+    name = models.CharField(max_length=100)
+    location = models.PointField(srid=27700)
+
+    objects = models.GeoManager()
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.name, self.code)
+
 class Postcode(models.Model):
     name = models.CharField(max_length=7, db_index=True)
     location = models.PointField(srid=27700)

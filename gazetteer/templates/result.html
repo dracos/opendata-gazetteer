@@ -41,7 +41,16 @@ Postcode {{ postcode }}:
 </ul>
 {% endif %}
 
-{% if not postcode and not roads and not latlon and not places %}
+{% if stations %}
+<h2>Closest station{% ifequal stations|length 1 %}{% else %}s{% endifequal %}</h2>
+<ul>
+{% for station in stations %}
+<li>Closest station: {{ station.name }} ({{ station.code }})
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if not postcode and not roads and not latlon and not places and not stations %}
 <p>I&rsquo;m afraid we couldn&rsquo;t find any results.</p>
 {% endif %}
 

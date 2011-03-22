@@ -6,7 +6,7 @@ from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point
 from django.db.models import Q
 
-from models import Place, Postcode, Road
+from models import Place, Postcode, Road, Station
 from utils import render, is_valid_postcode
 
 def home(request):
@@ -63,7 +63,7 @@ def postcode(request, postcode, type=None):
         'blue': [ postcode.location ],
     }
 
-    if 'application/json' in request.META.get('HTTP_ACCEPT') or type == 'json':
+    if 'application/json' in request.META.get('HTTP_ACCEPT', '') or type == 'json':
         return HttpResponse(simplejson.dumps({
             'postcode': '%s' % postcode,
             'latitude': '%.6f' % postcode.location[1],
@@ -91,7 +91,7 @@ def point(request, lat, lon, type=None):
         'blue': [ point ],
     }
 
-    if 'application/json' in request.META.get('HTTP_ACCEPT') or type == 'json':
+    if 'application/json' in request.META.get('HTTP_ACCEPT', '') or type == 'json':
         return HttpResponse(simplejson.dumps({
             'postcode': '%s' % latlon['postcode'][0],
             'place': '%s' % latlon['place'][0],
@@ -101,6 +101,68 @@ def point(request, lat, lon, type=None):
     return render(request, 'result.html', {
         'q': '%s,%s' % (lat, lon),
         'latlon': latlon,
+        'map': map,
+    })
+
+def nearest_station(request, lat, lon, type=None):
+    lat = float(lat)
+    lon = float(lon)
+    point = Point(lon, lat, srid=4326)
+    try:
+        num = int(request.GET['n'])
+        if num > 5: num = 5
+        if num < 1: num = 1
+    except:
+        num = 1
+    stations = Station.objects.distance(point).order_by('distance')[:num]
+    for station in stations:
+        station.location.transform(4326)
+
+    map = {
+        'blue': [ point ],
+        'yellow': [ station.location for station in stations ],
+    }
+
+    if 'application/json' in request.META.get('HTTP_ACCEPT', '') or type == 'json':
+        response = HttpResponse(simplejson.dumps([ {
+            'station': station.name,
+            'code': station.code,
+            'latitude': '%.6f' % station.location[1],
+            'longitude': '%.6f' % station.location[0],
+        } for station in stations ]), mimetype='application/json')
+        response['Access-Control-Allow-Origin'] = 'http://traintimes.org.uk'
+        return response
+
+    return render(request, 'result.html', {
+        'q': '%s,%s' % (lat, lon),
+        'stations': stations,
+        'map': map,
+    })
+
+def furthest_station(request, lat, lon, type=None):
+    lat = float(lat)
+    lon = float(lon)
+    point = Point(lon, lat, srid=4326)
+    station = Station.objects.distance(point).order_by('-distance')[0]
+    station.location.transform(4326)
+    map = {
+        'blue': [ point ],
+        'yellow': [ station.location ],
+    }
+
+    if 'application/json' in request.META.get('HTTP_ACCEPT', '') or type == 'json':
+        response = HttpResponse(simplejson.dumps({
+            'station': station.name,
+            'code': station.code,
+            'latitude': '%.6f' % station.location[1],
+            'longitude': '%.6f' % station.location[0],
+        }), mimetype='application/json')
+        response['Access-Control-Allow-Origin'] = 'http://traintimes.org.uk'
+        return response
+
+    return render(request, 'result.html', {
+        'q': '%s,%s' % (lat, lon),
+        'station': station,
         'map': map,
     })
 
