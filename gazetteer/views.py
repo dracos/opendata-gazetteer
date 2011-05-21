@@ -92,11 +92,11 @@ def point(request, lat, lon, type=None):
     }
 
     if 'application/json' in request.META.get('HTTP_ACCEPT', '') or type == 'json':
-        return HttpResponse(simplejson.dumps({
-            'postcode': '%s' % latlon['postcode'][0],
-            'place': '%s' % latlon['place'][0],
-            'road': '%s' % latlon['road'][0],
-        }), mimetype='application/json')
+        out = {}
+        for p in ('postcode', 'place', 'road'):
+            if latlon[p]:
+                out[p] = [ '%s' % latlon[p][0], '%.0f' % latlon[p][0].distance.m ]
+        return HttpResponse(simplejson.dumps(out), mimetype='application/json')
 
     return render(request, 'result.html', {
         'q': '%s,%s' % (lat, lon),
