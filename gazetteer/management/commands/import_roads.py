@@ -17,12 +17,12 @@ class Command(BaseCommand):
                 'centre': Point(map(float, row[2:4])),
                 'min': Point(float(row[4]), float(row[6])),
                 'max': Point(float(row[5]), float(row[7])),
-                'settlement': row[9].decode('iso-8859-1'),
-                'locality': row[10].decode('iso-8859-1'),
-                'county': row[11].decode('iso-8859-1'),
-                'council': row[12].decode('iso-8859-1'),
-                'tile10k': row[13],
-                'tile25k': row[14],
+                'settlement': row[8].decode('iso-8859-1'),
+                'locality': row[9].decode('iso-8859-1'),
+                'county': row[10].decode('iso-8859-1'),
+                'council': row[11].decode('iso-8859-1'),
+                'tile10k': row[12],
+                'tile25k': row[13],
             }
             Road.objects.get_or_create(**args)
 
